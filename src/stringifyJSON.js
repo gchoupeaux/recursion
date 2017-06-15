@@ -38,22 +38,23 @@ var stringifyJSON = function(obj) {
 
   else if (!Array.isArray(obj) && typeof(obj)==='object' && !isEmpty(obj)){
   	for (let i=0; i<Object.keys(obj).length; i++){
-  		// if first key
-  		if (i === 0) {
-  			result+='{';
-  		}
-  		result+=stringifyJSON(Object.keys(obj)[i])+':'+stringifyJSON(obj[Object.keys(obj)[i]]);
-  		// if not last key
-  		if (i !== Object.keys(obj).length-1) {
-  			result+=',';
-  		// last key
-  		} else {
-  			result+='}';
-  		}
+      // if first key
+      if (i === 0) {
+        result+='{';
+      }
+      if (typeof(obj[Object.keys(obj)[i]]) !== 'function' && typeof(obj[Object.keys(obj)[i]]) !== 'undefined'){
+        result+=stringifyJSON(Object.keys(obj)[i])+':'+stringifyJSON(obj[Object.keys(obj)[i]]);
+        // if not last key
+        if (i !== Object.keys(obj).length-1) {
+          result+=',';
+        }
+      }
+      // last key
+      if (i === Object.keys(obj).length-1) {
+        result+='}';
+      }
   	}
-  }
-
-  if (result === '{"functions":,"undefined":}') result = '{}';
+	}
 
   return result;
 };
